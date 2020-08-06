@@ -1,5 +1,17 @@
-# set -x
 echo -e "MoodleMobile App 3.9.2 build starting...\n"
+
+appname=$1
+platform=""
+
+# check platform type
+if [[ $2 = "ios" ]] || [[ $2 = "android" ]] || [[ $2 = "" ]]
+then
+    platform=$2
+else
+  echo "Invalid Platform: ${platform}"
+  exit 1
+fi
+
 
 # check Firebase Config  files
 if [[ ! -f google-services.json ]] || [[ ! -f GoogleService-Info.plist ]]
