@@ -27,3 +27,62 @@ then
     echo -e "\e[33mWarning: my-release-key.keystore file Not Found!\e[0m\nYou may need it to generate .apk file\n"
 
 fi
+
+echo -e "\nInstalling packages..."
+set -x
+
+npm install
+
+set +x
+
+# check if cordova platforms exist and remove it
+## ugly hack
+if [ -d "./platforms" ]
+then
+    rm -rf ./platforms
+    echo -e "\nPlaforms deleted!"
+fi
+
+
+set -x
+# add Cordova Android and iOS platforms
+echo -e "\nAdding Cordova Platforms..."
+
+ionic cordova platform add android
+ionic cordova resources android --force
+ionic cordova platform add ios
+ionic cordova resources ios --force
+
+set +x
+
+# move files
+
+echo -e "\nCopying files among Platforms"
+
+cp -v ./platforms/android/app/src/main/AndroidManifest.xml ./platform/ios/
+cp -v ./platforms/ios/${appname}/*.plist ./platform/ios/
+cp -v ./platforms/ios/${appname}/Resources/GoogleService-Info.plist ./platform/ios/
+
+
+echo -e "\nBuilding using Platforms"
+
+set -x
+
+npm run setup
+npm run ionic:build -- --prod
+
+set +x
+
+echo -e "\nReleasing build"
+
+set -x
+
+if [ platform = "" ]
+then
+    ionic cordova build android --release
+    ionic cordova build ios --release
+else
+    ionic cordova build ${platform} --release
+fi
+
+set +x
