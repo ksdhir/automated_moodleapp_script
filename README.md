@@ -12,6 +12,6 @@ $ ./moodleapp_v392.sh "appname" android
 $ ./moodleapp_v392.sh "appname" ios
 
 # builds both android and ios application (requires XCode/MacOS)
-$ ./moodleapp_v392.sh "appname" android
+$ ./moodleapp_v392.sh "appname"
 ```
 After the builds are released you may follow necessary steps in order to generate **.apk** or **upload your iOS build** to Apple App developer account using XCode as shown here: https://ionicframework.com/docs/v1/guide/publishing.html
